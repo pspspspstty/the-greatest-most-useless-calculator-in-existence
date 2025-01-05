@@ -1,0 +1,46 @@
+# import libraries
+from sympy import *
+from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
+from .base_operation import Operation
+import numpy as np
+import matplotlib.pyplot as plt
+
+# set transformations when parsing user input
+transformations = (standard_transformations + (implicit_multiplication_application,) + (convert_xor,))
+
+class GraphVF(Operation):
+    # Constructor for class GraphVF
+    def __init__(self, xinput: str, yinput: str, zinput: str):
+        x, y, z = symbols('x y z')
+
+        # sets
+        self.x_component = lambdify((x, y, z), parse_expr(xinput, transformations=transformations), "numpy")
+        self.y_component = lambdify((x, y, z), parse_expr(yinput, transformations=transformations), "numpy")
+        self.z_component = lambdify((x, y, z), parse_expr(zinput, transformations=transformations), "numpy")
+
+    def sanitize(self, expression: str):
+        super().sanitize(expression)
+
+    def calculate(self):
+        fig = plt.figure()
+        ax = fig.add_subplot(projection='3d')
+
+        x, y, z = np.meshgrid(np.arange(-10, 10, 2),
+                              np.arange(-10, 10, 2),
+                              np.arange(-10, 10, 2), )
+
+        # Evaluate the lambdified components at the grid points
+        u = self.x_component(x, y, z)  # Evaluate x component function
+        v = self.y_component(x, y, z)  # Evaluate y component function
+        w = self.z_component(x, y, z)  # Evaluate z component function
+
+        ax.plot([0, 0], [0, 0], [-10, 10], color='r', linewidth=2)  # X axis (red line)
+        ax.plot([0, 0], [-10, 10], [0, 0], color='g', linewidth=2)  # Y axis (green line)
+        ax.plot([-10, 10], [0, 0], [0, 0], color='b', linewidth=2)  # Z axis (blue line)
+        ax.grid(True)
+
+        # Create the 3D quiver plot
+        ax.quiver(x, y, z, u, v, w, length=1, normalize=True)
+
+        # Display the plot
+        plt.show()
