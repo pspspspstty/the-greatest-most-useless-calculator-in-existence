@@ -86,8 +86,20 @@ class Menu:
 
         return line_integral.LineInt(fnc, cur_x, cur_y, low_bnd, upp_bnd)
 
+    def check_if_conservative(self):
+        
+
     def create_work_int(self):
         print("Work integral selected")
+
+        x, y, t = symbols('x y t')
+
+        field_x = self.check_for_var("Enter the \033[93mx component\033[0m of the vector field in terms of x and y ( ex: xy + x )", {x, y})
+        field_y = self.check_for_var("Enter the \033[93my component\033[0m of the vector field in terms of x and y ( ex: xy + x )", {x, y})
+        cur_x = self.check_for_var("Enter the \033[93mx component\033[0m of the parameterized curve in terms of t ( ex: t^2 + 1 ): ", {t})
+        cur_y = self.check_for_var("Enter the \033[93my component\033[0m of the parameterized curve in terms of t ( ex: t^2 + 1 ): ", {t})
+        low_bnd, upp_bnd = self.validate_bounds("Enter the \033[93mlower bound\033[0m of t ( ex: 0 ): ","Enter the \033[93mupper bound\033[0m of t ( ex: 2 ): ")
+
         return work_integral.WorkInt()
 
     def create_surf_int(self):
