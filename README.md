@@ -1,6 +1,6 @@
 # The Greatest, Most Useless Calculator in Existence
 
-A calculator intended for all things Multivariable Calculus and Vector Analysis. Only runs with `main.py`, but an GUI may be added soon.
+A calculator intended for all things Multivariable Calculus and Vector Analysis. Only runs with `main.py`, but a GUI may be added soon.
 
 
 # Installation
