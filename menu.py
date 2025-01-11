@@ -4,6 +4,20 @@ from operations import *
 
 transformations = (standard_transformations + (implicit_multiplication_application,) + (convert_xor,))
 
+yes = {
+    "y",
+    "Y",
+    "yes",
+    "Yes",
+}
+
+no = {
+    "n",
+    "N",
+    "no",
+    "No",
+}
+
 class Menu:
     def __init__(self):
         pass
@@ -86,13 +100,28 @@ class Menu:
 
         return line_integral.LineInt(fnc, cur_x, cur_y, low_bnd, upp_bnd)
 
-    def check_if_conservative(self):
-        
+    def is_conservative(self):
+        pass
+
+    def is_closed_curve(self):
+        while True:
+            user_input = input("Is your curve closed? (y/n): ").strip()
+            try:
+                if user_input in yes:
+                    return True
+                elif user_input in no:
+                    return False
+                else:
+                    print("\033[31mInvalid input. Please select yes or no.\033[0m")
+            except Exception as e:
+                print(f"\033[31mInvalid input. {e}\033[0m")
 
     def create_work_int(self):
         print("Work integral selected")
 
         x, y, t = symbols('x y t')
+
+        print(str(self.is_closed_curve()))
 
         field_x = self.check_for_var("Enter the \033[93mx component\033[0m of the vector field in terms of x and y ( ex: xy + x )", {x, y})
         field_y = self.check_for_var("Enter the \033[93my component\033[0m of the vector field in terms of x and y ( ex: xy + x )", {x, y})

@@ -3,3 +3,4 @@ matplotlib
 sympy
 numpy
 ipython
+PyQt6
